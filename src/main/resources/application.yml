@@ -1,0 +1,15 @@
+server:
+    port: 9004
+spring:
+    datasource:
+        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        password: '{Dung232@gmail.com;}'
+        url: jdbc:sqlserver://localhost;databaseName=mms;encrypt=true;trustServerCertificate=true
+        username: sa
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.SQLServerDialect
+        show-sql: true
