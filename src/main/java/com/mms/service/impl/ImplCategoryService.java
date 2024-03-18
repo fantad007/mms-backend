@@ -4,10 +4,12 @@ import com.mms.dto.CategoryDto;
 import com.mms.entity.CategoryEntity;
 import com.mms.repository.CategoryRepository;
 import com.mms.service.CategoryService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +47,10 @@ public class ImplCategoryService implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryDto create(CategoryDto categoryDto) {
         CategoryEntity category = mapper.map(categoryDto, CategoryEntity.class);
+        category.setAmount(BigDecimal.valueOf(0));
         categoryRepository.saveAndFlush(category);
         categoryDto = mapper.map(category, CategoryDto.class);
         categoryDto.setTypeName(categoryDto.getType().getName());
@@ -54,11 +58,13 @@ public class ImplCategoryService implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryDto update(CategoryDto categoryDto, Long id) {
         return categoryDto;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         CategoryEntity category = mapper.map(getById(id), CategoryEntity.class);
         category.setDeleted(true);

@@ -28,6 +28,9 @@ public class CategoryEntity extends BaseAuditEntity {
 
     private TransactionType type;
 
+    @Column(columnDefinition = "nvarchar(255)")
+    private String description;
+
     private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "category")

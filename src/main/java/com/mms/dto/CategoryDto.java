@@ -25,6 +25,8 @@ public class CategoryDto {
 
     private String typeName;
 
+    private String description;
+
     private String createdBy;
 
     private String updatedBy;

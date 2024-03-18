@@ -4,6 +4,7 @@ import com.mms.dto.WalletDto;
 import com.mms.entity.WalletEntity;
 import com.mms.repository.WalletRepository;
 import com.mms.service.WalletService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ public class ImplWalletService implements WalletService {
     }
 
     @Override
+    @Transactional
     public WalletDto create(WalletDto walletDto) {
         WalletEntity wallet = mapper.map(walletDto, WalletEntity.class);
         if (wallet.getBalance() == null) {
@@ -56,6 +58,7 @@ public class ImplWalletService implements WalletService {
     }
 
     @Override
+    @Transactional
     public WalletDto update(WalletDto walletDto, Long id) {
         WalletEntity wallet = mapper.map(getById(id), WalletEntity.class);
         wallet.setUpdatedAt(Date.from(Instant.now()));
@@ -68,6 +71,7 @@ public class ImplWalletService implements WalletService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         WalletEntity wallet = mapper.map(getById(id), WalletEntity.class);
         wallet.setDeleted(true);

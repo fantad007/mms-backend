@@ -3,11 +3,11 @@ package com.mms.entity.connection;
 import com.mms.entity.CategoryEntity;
 import com.mms.entity.WalletEntity;
 import com.mms.entity.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -25,4 +25,11 @@ public class CategoryWalletEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "wallet_id")
     private WalletEntity wallet;
+
+    private BigDecimal amount;
+
+    @Column(columnDefinition = "nvarchar(255)")
+    private String description;
+
+    private Date atTime;
 }
