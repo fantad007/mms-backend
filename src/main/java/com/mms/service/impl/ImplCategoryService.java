@@ -4,6 +4,7 @@ import com.mms.dto.CategoryDto;
 import com.mms.entity.CategoryEntity;
 import com.mms.repository.CategoryRepository;
 import com.mms.service.CategoryService;
+import com.mms.service.common.CommonService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,6 +21,8 @@ public class ImplCategoryService implements CategoryService {
     private final ModelMapper mapper;
 
     private final CategoryRepository categoryRepository;
+
+    private final CommonService commonService;
 
     @Override
     public List<CategoryDto> getAll() {
@@ -50,6 +53,7 @@ public class ImplCategoryService implements CategoryService {
     @Transactional
     public CategoryDto create(CategoryDto categoryDto) {
         CategoryEntity category = mapper.map(categoryDto, CategoryEntity.class);
+        category.setId(commonService.createId("CategoryEntity"));
         category.setAmount(BigDecimal.valueOf(0));
         categoryRepository.saveAndFlush(category);
         categoryDto = mapper.map(category, CategoryDto.class);

@@ -13,6 +13,7 @@ import com.mms.repository.WalletRepository;
 import com.mms.service.CategoryService;
 import com.mms.service.TransactionService;
 import com.mms.service.WalletService;
+import com.mms.service.common.CommonService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -37,6 +38,8 @@ public class ImplTransactionService implements TransactionService {
 
     private final CategoryService categoryService;
 
+    private final CommonService commonService;
+
     @Override
     @Transactional
     public TransactionDto create(TransactionDto transactionDto) {
@@ -56,6 +59,7 @@ public class ImplTransactionService implements TransactionService {
         WalletEntity wallet = mapper.map(walletDto, WalletEntity.class);
         CategoryEntity category = mapper.map(categoryDto, CategoryEntity.class);
         CategoryWalletEntity categoryWallet = new CategoryWalletEntity();
+        categoryWallet.setId(commonService.createId("CategoryWalletEntity"));
         categoryWallet.setWallet(wallet);
         categoryWallet.setCategory(category);
         categoryWallet.setAmount(amount);

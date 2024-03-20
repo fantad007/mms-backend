@@ -1,6 +1,5 @@
 package com.mms.entity.base;
 
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -19,7 +18,6 @@ public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
     private Long id;
 
     @Override

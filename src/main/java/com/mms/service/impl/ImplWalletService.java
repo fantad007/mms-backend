@@ -4,6 +4,7 @@ import com.mms.dto.WalletDto;
 import com.mms.entity.WalletEntity;
 import com.mms.repository.WalletRepository;
 import com.mms.service.WalletService;
+import com.mms.service.common.CommonService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,8 @@ public class ImplWalletService implements WalletService {
     private final ModelMapper mapper;
 
     private final WalletRepository walletRepository;
+
+    private final CommonService commonService;
 
     @Override
     public List<WalletDto> getAll() {
@@ -49,6 +52,7 @@ public class ImplWalletService implements WalletService {
     @Transactional
     public WalletDto create(WalletDto walletDto) {
         WalletEntity wallet = mapper.map(walletDto, WalletEntity.class);
+        wallet.setId(commonService.createId("WalletEntity"));
         if (wallet.getBalance() == null) {
             wallet.setBalance(BigDecimal.valueOf(0));
         }
