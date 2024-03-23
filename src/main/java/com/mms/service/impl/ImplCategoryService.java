@@ -74,4 +74,14 @@ public class ImplCategoryService implements CategoryService {
         category.setDeleted(true);
         categoryRepository.saveAndFlush(category);
     }
+
+    @Override
+    public BigDecimal getTotalSpend() {
+        return categoryRepository.getTotalSpend();
+    }
+
+    @Override
+    public BigDecimal getTotalEarn() {
+        return categoryRepository.getTotalEarn();
+    }
 }
