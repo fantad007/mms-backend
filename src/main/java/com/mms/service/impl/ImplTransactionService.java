@@ -20,7 +20,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +41,35 @@ public class ImplTransactionService implements TransactionService {
     private final CategoryService categoryService;
 
     private final CommonService commonService;
+
+    @Override
+    public List<TransactionDto> getAll() {
+        List<CategoryWalletEntity> transactions = categoryWalletRepository.getAll();
+        List<TransactionDto> transactionDtos = new ArrayList<>();
+        if (!transactions.isEmpty()) {
+            for (CategoryWalletEntity transaction: transactions) {
+                TransactionDto transactionDto = mapper.map(transaction, TransactionDto.class);
+                CategoryDto categoryDto = categoryService.getById(transactionDto.getCategoryId());
+                transactionDto.setCategoryName(categoryDto.getName());
+                transactionDto.setTypeName(categoryDto.getTypeName());
+                transactionDtos.add(transactionDto);
+            }
+            return transactionDtos;
+        }
+        return null;
+    }
+
+    @Override
+    public TransactionDto getById(Long id) {
+        if (categoryWalletRepository.getTransactionById(id).isPresent()) {
+            TransactionDto transactionDto = mapper.map(categoryWalletRepository.getTransactionById(id).get(), TransactionDto.class);
+            CategoryDto categoryDto = categoryService.getById(transactionDto.getCategoryId());
+            transactionDto.setCategoryName(categoryDto.getName());
+            transactionDto.setTypeName(categoryDto.getTypeName());
+            return transactionDto;
+        }
+        return null;
+    }
 
     @Override
     @Transactional
@@ -71,5 +102,15 @@ public class ImplTransactionService implements TransactionService {
         transactionDto.setAtTime(categoryWallet.getAtTime());
         transactionDto.setTypeName(category.getType().getName());
         return transactionDto;
+    }
+
+    @Override
+    public TransactionDto update(TransactionDto transactionDto, Long id) {
+        return transactionDto;
+    }
+
+    @Override
+    public void delete(Long id) {
+
     }
 }

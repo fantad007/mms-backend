@@ -32,4 +32,6 @@ public class CategoryWalletEntity extends BaseEntity {
     private String description;
 
     private Date atTime;
+
+    private boolean isDeleted = false;
 }
